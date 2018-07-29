@@ -15,17 +15,16 @@ public class BookClub {
     // PC: this is the object (HashMap) that holds the book name (string) and list of reviews (list<string>)
     private final Map<String, List<String>> listMap = new HashMap<>();
 
+    // PC: custom objects for books
+    private final Map<Book, List<String>> bookMap = new HashMap<>();
     private List<Book> bookList = new ArrayList<>();
-
     //Creates Book object
     public void createBook(String n){
             bookList.add(new Book(n));
     }
-
     public int getNumBooks(){
         return this.bookList.size();
     }
-
     public String printBookList(){
         String output = "";
         for(int i = 0; i < bookList.size(); i++){
@@ -33,6 +32,32 @@ public class BookClub {
             output = output + "\n";
         }
         return output;
+    }
+
+    public void addBookReview(Book z, String n) {
+        bookMap.putIfAbsent(z, new ArrayList<>());
+        bookMap.get(z).add(n);
+    }
+
+    public List<String> search2(String z) {
+        if (z.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        if (z.toUpperCase().equals(z)) {
+            System.out.print("hi");
+            return bookMap.keySet().stream().map(Book::getName)
+                    .filter(b -> Arrays.stream(b.split(" "))
+                            .map(e -> ("" + e.charAt(0)).toLowerCase())
+                            .collect(Collectors.joining())
+                            .startsWith(z.toLowerCase()))
+                    .sorted() // new code that sorts collection before keys are returned
+                    .collect(Collectors.toList());
+        }
+
+        return bookMap.keySet().stream().map(Book::getName)
+                .filter(b -> b.toLowerCase().startsWith(z.toLowerCase()))
+                .sorted()
+                .collect(Collectors.toList());
     }
 
 

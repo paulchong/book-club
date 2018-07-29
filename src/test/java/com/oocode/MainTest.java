@@ -100,4 +100,18 @@ public class MainTest {
         System.out.print(bookClub.printBookList());
         assertEquals(1, bookClub.getNumBooks());
     }
+
+
+    @Test
+    public void canSearch2ByInitials() {
+        BookClub bookClub = new BookClub();
+        Book book1 = new Book("Hello World");
+        Book book2 = new Book("Hello Wally");
+        bookClub.addBookReview(book1,"Great");
+        bookClub.addBookReview(book2,"boring");
+        assertEquals("if search string is ALL UPPER case " +
+                        "then it means search by initials",
+                asList("Hello Wally", "Hello World"),
+                bookClub.search2("HW"));
+    }
 }
