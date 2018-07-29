@@ -22,21 +22,7 @@ public class MainTest {
     }
 
 
-    // PC: custom test to find failure
-    @Test
-    public void canSearchByInitialsFailure() {
-        BookClub bookClub = new BookClub();
-        bookClub.addReview("Hb Wb", "boring");
-        bookClub.addReview("Ha Wa", "boring");
-        bookClub.addReview("Hc Wc", "boring");
-//        bookClub.addReview("Hd W", "fine");
-        assertEquals("if search string is ALL UPPER case " +
-                        "then it means search by initials",
-                asList("Ha Wa", "Hb Wb","Hc Wc"),
-                bookClub.search("HW"));
-    }
-
-    // PC: custom test to find failure
+    // PC: added new test to illustrate failure that existing test was missing
     @Test
     public void canSearchByInitials2() {
         BookClub bookClub = new BookClub();
@@ -48,24 +34,6 @@ public class MainTest {
                         "then it means search by initials",
                 asList("Adios Wally", "Aurevoir Wally"),
                 bookClub.search("AW"));
-    }
-
-    // PC: custom test to find failure
-    @Test
-    public void canSearchByInitialsFailure3() {
-        BookClub bookClub = new BookClub();
-        bookClub.addReview("Hola World", "great");
-        bookClub.addReview("Hello Wally", "boring");
-
-
-
-//        bookClub.addReview("Ac B", "boring");
-//        bookClub.addReview("Ad B", "fine");
-        assertEquals("if search string is ALL UPPER case " +
-                        "then it means search by initials",
-//                asList("Aa B", "Ab B","Ac B","Ad B"),
-                asList("Hello Wally", "Hola World"),
-                bookClub.search("HW"));
     }
 
     @Test
@@ -121,5 +89,15 @@ public class MainTest {
                 bookClub.classics("HW"));
         assertEquals(singletonList("Hello World"),
                 bookClub.classics("He"));
+    }
+
+    // PC: custom test for book object
+    @Test
+    public void t6() {
+        BookClub bookClub = new BookClub();
+        bookClub.createBook("sunrise");
+        bookClub.createBook("sunset");
+        System.out.print(bookClub.printBookList());
+        assertEquals(1, bookClub.getNumBooks());
     }
 }

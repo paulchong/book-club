@@ -15,6 +15,27 @@ public class BookClub {
     // PC: this is the object (HashMap) that holds the book name (string) and list of reviews (list<string>)
     private final Map<String, List<String>> listMap = new HashMap<>();
 
+    private List<Book> bookList = new ArrayList<>();
+
+    //Creates Book object
+    public void createBook(String n){
+            bookList.add(new Book(n));
+    }
+
+    public int getNumBooks(){
+        return this.bookList.size();
+    }
+
+    public String printBookList(){
+        String output = "";
+        for(int i = 0; i < bookList.size(); i++){
+            output = output + (i+1) + ". " + bookList.get(i).getName();
+            output = output + "\n";
+        }
+        return output;
+    }
+
+
     // PC: first check whether the book (z) already exists.  If it doesn't, then create a key for book (z).
     // PC: second, take the book (z) and add review (n) to it.
     public void addReview(String z, String n) {
@@ -91,4 +112,6 @@ public class BookClub {
             throw new RuntimeException(e);
         }
     }
+
 }
+
