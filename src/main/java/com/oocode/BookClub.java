@@ -15,29 +15,29 @@ public class BookClub {
     // PC: this is the object (HashMap) that holds the book name (string) and list of reviews (list<string>)
     private final Map<String, List<String>> listMap = new HashMap<>();
 
-    // PC: custom objects for books
+    // PC: custom objects for books.  This will replace listMap
     private final Map<Book, List<String>> bookMap = new HashMap<>();
-    private List<Book> bookList = new ArrayList<>();
-    //Creates Book object
-    public void createBook(String n){
-            bookList.add(new Book(n));
-    }
-    public int getNumBooks(){
-        return this.bookList.size();
-    }
-    public String printBookList(){
-        String output = "";
-        for(int i = 0; i < bookList.size(); i++){
-            output = output + (i+1) + ". " + bookList.get(i).getName();
-            output = output + "\n";
-        }
-        return output;
-    }
 
-    public void addBookReview(Book z, String n) {
-        bookMap.putIfAbsent(z, new ArrayList<>());
-        bookMap.get(z).add(n);
+    //Creates Book object
+//    public void createBook(String name){
+//        bookMap.putIfAbsent(new Book(name), new ArrayList<>());
+//    }
+    public void addBookReview(Book book, String n) {
+        bookMap.putIfAbsent(book, new ArrayList<>());
+        bookMap.get(book).add(n);
     }
+//    public int getNumBooks(){
+//        return this.bookList.size();
+//    }
+//    public String printBookList(){
+//        String output = "";
+//        for(int i = 0; i < bookList.size(); i++){
+//            output = output + (i+1) + ". " + bookList.get(i).getName();
+//            output = output + "\n";
+//        }
+//        return output;
+//    }
+
 
     public List<String> search2(String z) {
         if (z.equals("")) {

@@ -92,14 +92,14 @@ public class MainTest {
     }
 
     // PC: custom test for book object
-    @Test
-    public void t6() {
-        BookClub bookClub = new BookClub();
-        bookClub.createBook("sunrise");
-        bookClub.createBook("sunset");
-        System.out.print(bookClub.printBookList());
-        assertEquals(1, bookClub.getNumBooks());
-    }
+//    @Test
+//    public void t6() {
+//        BookClub bookClub = new BookClub();
+//        bookClub.createBook("sunrise");
+//        bookClub.createBook("sunset");
+//        System.out.print(bookClub.printBookList());
+//        assertEquals(1, bookClub.getNumBooks());
+//    }
 
 
     @Test
