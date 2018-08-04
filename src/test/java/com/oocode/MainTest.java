@@ -2,6 +2,9 @@ package com.oocode;
 
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
@@ -114,4 +117,33 @@ public class MainTest {
                 asList("Hello Wally", "Hello World"),
                 bookClub.search2("HW"));
     }
+
+    @Test
+    public void canGetReviewPost() {
+        Review review1 = new Review("post test here");
+        assertEquals("if search string is ALL UPPER case " +
+                        "then it means search by initials",
+                "post test here",
+                review1.getPost());
+    }
+
+    //write a test for confirming date is working correctly. currently failing
+    @Test
+    public void canGetReviewPostDate() {
+        Review review1 = new Review("post test here","01/01/2000");
+        System.out.print(review1.toString());
+        assertEquals("if search string is ALL UPPER case " +
+                        "then it means search by initials",
+                "01/01/2000",
+                review1.getDate());
+    }
+
+    @Test
+    public void reviewDate() {
+        BookClub bookClub = new BookClub();
+        assertEquals("if",
+                new Date(),
+                bookClub.getOneYearEarlierDate(new Date()));
+    }
+
 }

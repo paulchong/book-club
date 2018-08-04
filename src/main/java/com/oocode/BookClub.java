@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,27 +19,45 @@ public class BookClub {
     // PC: custom objects for books.  This will replace listMap
     private final Map<Book, List<String>> bookMap = new HashMap<>();
 
-    //Creates Book object
-//    public void createBook(String name){
-//        bookMap.putIfAbsent(new Book(name), new ArrayList<>());
-//    }
+    // PC: custom method to add review to bookMap.  This will replace addReview.
     public void addBookReview(Book book, String n) {
         bookMap.putIfAbsent(book, new ArrayList<>());
         bookMap.get(book).add(n);
     }
-//    public int getNumBooks(){
-//        return this.bookList.size();
-//    }
-//    public String printBookList(){
-//        String output = "";
-//        for(int i = 0; i < bookList.size(); i++){
-//            output = output + (i+1) + ". " + bookList.get(i).getName();
-//            output = output + "\n";
+
+    public Date getOneYearEarlierDate(Date date){
+        Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);
+        System.out.println(calendar.getTime());
+
+        //subtract one year
+        calendar.add(Calendar.YEAR, -1);
+        System.out.println(calendar.getTime());
+        return calendar.getTime();
+    }
+
+//    public boolean recentlyReviewed(Book book) {
+//        // get list of reviews for 'book'
+//        // iterate through list checking whether the date is greater than 1 year ago
+//        // if so, then return true (might have a counter that is set to false, then changes to true.
+//        List reviews = bookMap.get(book);
+//        Calendar cal = Calendar.getInstance();
+//        Date today = cal.getTime();
+//        cal.add(Calendar.YEAR, 1); // to get previous year add -1
+//        Date nextYear = cal.getTime();
+//
+//        Date yearAgo = cal.year
+//        boolean reviewedInLastYear = false;
+//        for (int i = 0; i < reviews.size(); i++) {
+//            if (reviews.get(i).getDate().after(air)) {
+//                airlineNotFound = false;
+//                airline.get(i).bookSeat(fl, s, row, col);
+//            }
 //        }
-//        return output;
+//
 //    }
 
-
+    // PC: custom method that will replace search().
     public List<String> search2(String z) {
         if (z.equals("")) {
             throw new IllegalArgumentException();
