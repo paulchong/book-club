@@ -110,8 +110,8 @@ public class MainTest {
         BookClub bookClub = new BookClub();
         Book book1 = new Book("Hello World");
         Book book2 = new Book("Hello Wally");
-        bookClub.addBookReview(book1,"Great");
-        bookClub.addBookReview(book2,"boring");
+//        bookClub.addBookReview(book1,"Great");
+//        bookClub.addBookReview(book2,"boring");
         assertEquals("if search string is ALL UPPER case " +
                         "then it means search by initials",
                 asList("Hello Wally", "Hello World"),
@@ -150,10 +150,12 @@ public class MainTest {
     public void canAddBookReview() {
         BookClub bookClub = new BookClub();
         Book book1 = new Book("blah");
-        bookClub.addBookReview(book1, "this is a review");
-        bookClub.addBookReview(book1, "this is another review");
+        Review review1 = new Review("this is a review post", "01/01/2000");
+        Review review2 = new Review("this is another review post", "01/01/2001");
+        bookClub.addBookReview(book1, review1);
+        bookClub.addBookReview(book1, review2);
         assertEquals("if",
-                asList("Hello Wally", "Hello World"),
+                asList(review1, review2),
                 bookClub.bookReviewsFor(book1));
     }
 
@@ -161,8 +163,10 @@ public class MainTest {
     public void recentlyReviewed() {
         BookClub bookClub = new BookClub();
         Book book1 = new Book("blah");
-        bookClub.addBookReview(book1, "this is a review");
-        bookClub.addBookReview(book1, "this is another review");
+        Review review1 = new Review("this is a review post", "01/01/2018");
+        Review review2 = new Review("this is another review post", "01/01/2001");
+        bookClub.addBookReview(book1, review1);
+        bookClub.addBookReview(book1, review2);
         assertEquals("if",
                 true,
                 bookClub.recentlyReviewed(book1));

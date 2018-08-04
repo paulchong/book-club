@@ -28,9 +28,8 @@ public class Review {
     public String getPost(){
         return this.reviewPost;
     }
-    public Date getDate(){
-        return this.postDate;
-    }
+    public Date getDate() {
+        return this.postDate; }
 
     @Override
     public String toString() {

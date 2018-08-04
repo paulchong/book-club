@@ -17,16 +17,16 @@ public class BookClub {
     private final Map<String, List<String>> listMap = new HashMap<>();
 
     // PC: custom objects for books.  This will replace listMap
-    private final Map<Book, List<String>> bookMap = new HashMap<>();
+    private final Map<Book, List<Review>> bookMap = new HashMap<>();
 
     // PC: custom method to add review to bookMap.  This will replace addReview().
-    public void addBookReview(Book book, String n) {
+    public void addBookReview(Book book, Review review) {
         bookMap.putIfAbsent(book, new ArrayList<>());
-        bookMap.get(book).add(n);
+        bookMap.get(book).add(review);
     }
     // PC: custom method to get reviews for a book in bookMap.  This will replace reviewsFor().
-    public List<String> bookReviewsFor(Book z) {
-        return bookMap.getOrDefault(z, Collections.emptyList());
+    public List<Review> bookReviewsFor(Book book) {
+        return bookMap.getOrDefault(book, Collections.emptyList());
     }
 
     public Date getOneYearEarlierDate(Date date){
@@ -46,20 +46,21 @@ public class BookClub {
         // if so, then return true (might have a counter that is set to false, then changes to true.
         // need to swap out string for review in bookMap
 
-        List reviews = bookMap.get(book);
+        List reviews = bookMap.get(book); // list of reviews for the book argument
         Date today = new Date();
         Date yearAgo = getOneYearEarlierDate(today);
-//        System.out.print(yearAgo + "here");
         boolean reviewedInLastYear = false;
+
         for (int i = 0; i < reviews.size(); i++) {
-            System.out.print(reviews.get(i) + "\n");
-//            if (reviews.get(i).getDate().after(air)) {
-//                airlineNotFound = false;
-//                airline.get(i).bookSeat(fl, s, row, col);
-//            }
+            Review review = (Review) reviews.get(i);
+            if (review.getDate().after(yearAgo)) {
+                reviewedInLastYear = true;
+            }
         }
-        return true;
+        return reviewedInLastYear;
     }
+
+    // BACK: add logic for whether book is recently reviewed or a classic.
 
     // PC: custom method that will replace search().
     public List<String> search2(String z) {
