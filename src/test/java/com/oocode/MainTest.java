@@ -121,24 +121,24 @@ public class MainTest {
     @Test
     public void canSearch2ByStringRecentlyReviewedFilter() {
         BookClub bookClub = new BookClub();
-        Book book1 = new Book("book1Name");
-        Book book2 = new Book("book2Name");
-        Review review1 = new Review("this is a review for Book1", "01/01/2018");
+        Book book1 = new Book("Hello World");
+        Book book2 = new Book("Hello Wally");
+        Review review1 = new Review("this is a review for Book1", "01/01/2008");
         Review review2 = new Review("this is another review for Book1", "01/01/2001");
         Review review3 = new Review("this is a review for Book2", "01/01/2008");
         bookClub.addBookReview(book1, review1);
         bookClub.addBookReview(book1, review2);
         bookClub.addBookReview(book2, review3);
         assertEquals("if ",
-                asList("book1Name"),
-                bookClub.search2("book"));
+                asList("Hello World"),
+                bookClub.search2("Hello"));
     }
 
     @Test
     public void canSearch2ByInitialsRecentlyReviewedFilter() {
         BookClub bookClub = new BookClub();
-        Book book1 = new Book("book1Name");
-        Book book2 = new Book("book2Name");
+        Book book1 = new Book("Hello World");
+        Book book2 = new Book("Hello Wally");
         Review review1 = new Review("this is a review for Book1", "01/01/2018");
         Review review2 = new Review("this is another review for Book1", "01/01/2001");
         Review review3 = new Review("this is a review for Book2", "01/01/2008");
@@ -146,8 +146,8 @@ public class MainTest {
         bookClub.addBookReview(book1, review2);
         bookClub.addBookReview(book2, review3);
         assertEquals("if ",
-                asList("book1Name"),
-                bookClub.search2("B"));
+                asList("Hello World"),
+                bookClub.search2("HW"));
     }
 
     @Test
@@ -194,14 +194,14 @@ public class MainTest {
     @Test
     public void recentlyReviewed() {
         BookClub bookClub = new BookClub();
-        Book book1 = new Book("blah");
+        Book book1 = new Book("Hello World");
         Review review1 = new Review("this is a review post", "01/01/2018");
         Review review2 = new Review("this is another review post", "01/01/2001");
         bookClub.addBookReview(book1, review1);
         bookClub.addBookReview(book1, review2);
         assertEquals("if",
                 true,
-                bookClub.recentlyReviewed(book1));
+                bookClub.wasRecentlyReviewed("Hello World"));
     }
 
     @Test

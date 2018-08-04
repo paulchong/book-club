@@ -32,15 +32,11 @@ public class BookClub {
     public Date getOneYearEarlierDate(Date date){
         Calendar calendar = Calendar.getInstance();
 	    calendar.setTime(date);
-        System.out.println(calendar.getTime());
-
-        //subtract one year
-        calendar.add(Calendar.YEAR, -1);
-        System.out.println(calendar.getTime());
+        calendar.add(Calendar.YEAR, -1);  //subtract one year
         return calendar.getTime();
     }
 
-    public boolean recentlyReviewed(Book book) {
+    public boolean wasRecentlyReviewed(String bookName) {
         // get list of reviews for 'book'
         // iterate through list checking whether the date is greater than 1 year ago
         // if so, then return true (might have a counter that is set to false, then changes to true.
@@ -49,9 +45,9 @@ public class BookClub {
 //        BACK: issue is that right now the filter is an AND filter.  Needs to be an OR filter.  Which means that
 //        recentlyReviewed() needs to accept a String bookName, then also  requires an additional step for converting
 //          the bookName into a Book.
+        // 1. assignment to book, and 2. check if not found.
 
-
-
+        Book book = bookMap.keySet().stream().filter(b -> bookName.equals(b.getName())).findAny().orElse(null);
         List reviews = bookMap.get(book); // list of reviews for the book argument
         Date today = new Date();
         Date yearAgo = getOneYearEarlierDate(today);
@@ -73,24 +69,21 @@ public class BookClub {
             throw new IllegalArgumentException();
         }
         if (z.toUpperCase().equals(z)) {
-            System.out.print("hi");
-            return bookMap.keySet().stream().filter(this::recentlyReviewed)
+            return bookMap.keySet().stream()
                     .map(Book::getName)
                     .filter(b -> Arrays.stream(b.split(" "))
                             .map(e -> ("" + e.charAt(0)).toLowerCase())
                             .collect(Collectors.joining())
                             .startsWith(z.toLowerCase()))
-                    .filter(b -> isClassic(b)) // applies filter for whether book is a classic or not
+                    .filter(b -> isClassic(b)||wasRecentlyReviewed(b)) // checks whether book is a classic or was recently reviewed
                     .sorted() // new code that sorts collection before keys are returned
                     .collect(Collectors.toList());
         }
 
         return bookMap.keySet().stream()
-                .filter(this::recentlyReviewed)
                 .map(Book::getName)
                 .filter(b -> b.toLowerCase().startsWith(z.toLowerCase()))
-                .filter(b -> isClassic(b))
-//                .filter(this::isClassic)
+                .filter(b -> isClassic(b)||wasRecentlyReviewed(b))
                 .sorted()
                 .collect(Collectors.toList());
     }

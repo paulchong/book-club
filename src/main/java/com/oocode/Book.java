@@ -14,4 +14,9 @@ public class Book {
         return this.name;
     }
 
+    @Override
+    public String toString() {
+        return "Book Name: " + name + "\n";
+    }
+
 }
