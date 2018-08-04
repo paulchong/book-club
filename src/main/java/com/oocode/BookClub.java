@@ -46,6 +46,12 @@ public class BookClub {
         // if so, then return true (might have a counter that is set to false, then changes to true.
         // need to swap out string for review in bookMap
 
+//        BACK: issue is that right now the filter is an AND filter.  Needs to be an OR filter.  Which means that
+//        recentlyReviewed() needs to accept a String bookName, then also  requires an additional step for converting
+//          the bookName into a Book.
+
+
+
         List reviews = bookMap.get(book); // list of reviews for the book argument
         Date today = new Date();
         Date yearAgo = getOneYearEarlierDate(today);
@@ -62,28 +68,32 @@ public class BookClub {
 
     // PC: custom method that will replace search().
     public List<String> search2(String z) {
+
         if (z.equals("")) {
             throw new IllegalArgumentException();
         }
         if (z.toUpperCase().equals(z)) {
             System.out.print("hi");
-            return bookMap.keySet().stream().map(Book::getName)
+            return bookMap.keySet().stream().filter(this::recentlyReviewed)
+                    .map(Book::getName)
                     .filter(b -> Arrays.stream(b.split(" "))
                             .map(e -> ("" + e.charAt(0)).toLowerCase())
                             .collect(Collectors.joining())
                             .startsWith(z.toLowerCase()))
+                    .filter(b -> isClassic(b)) // applies filter for whether book is a classic or not
                     .sorted() // new code that sorts collection before keys are returned
                     .collect(Collectors.toList());
         }
 
         return bookMap.keySet().stream()
-                .filter(b -> recentlyReviewed(b))
+                .filter(this::recentlyReviewed)
                 .map(Book::getName)
                 .filter(b -> b.toLowerCase().startsWith(z.toLowerCase()))
+                .filter(b -> isClassic(b))
+//                .filter(this::isClassic)
                 .sorted()
                 .collect(Collectors.toList());
     }
-
 
     // PC: first check whether the book (z) already exists.  If it doesn't, then create a key for book (z).
     // PC: second, take the book (z) and add review (n) to it.
