@@ -146,4 +146,27 @@ public class MainTest {
                 bookClub.getOneYearEarlierDate(new Date()));
     }
 
+    @Test
+    public void canAddBookReview() {
+        BookClub bookClub = new BookClub();
+        Book book1 = new Book("blah");
+        bookClub.addBookReview(book1, "this is a review");
+        bookClub.addBookReview(book1, "this is another review");
+        assertEquals("if",
+                asList("Hello Wally", "Hello World"),
+                bookClub.bookReviewsFor(book1));
+    }
+
+    @Test
+    public void recentlyReviewed() {
+        BookClub bookClub = new BookClub();
+        Book book1 = new Book("blah");
+        bookClub.addBookReview(book1, "this is a review");
+        bookClub.addBookReview(book1, "this is another review");
+        assertEquals("if",
+                true,
+                bookClub.recentlyReviewed(book1));
+    }
+
+
 }

@@ -19,10 +19,14 @@ public class BookClub {
     // PC: custom objects for books.  This will replace listMap
     private final Map<Book, List<String>> bookMap = new HashMap<>();
 
-    // PC: custom method to add review to bookMap.  This will replace addReview.
+    // PC: custom method to add review to bookMap.  This will replace addReview().
     public void addBookReview(Book book, String n) {
         bookMap.putIfAbsent(book, new ArrayList<>());
         bookMap.get(book).add(n);
+    }
+    // PC: custom method to get reviews for a book in bookMap.  This will replace reviewsFor().
+    public List<String> bookReviewsFor(Book z) {
+        return bookMap.getOrDefault(z, Collections.emptyList());
     }
 
     public Date getOneYearEarlierDate(Date date){
@@ -36,26 +40,26 @@ public class BookClub {
         return calendar.getTime();
     }
 
-//    public boolean recentlyReviewed(Book book) {
-//        // get list of reviews for 'book'
-//        // iterate through list checking whether the date is greater than 1 year ago
-//        // if so, then return true (might have a counter that is set to false, then changes to true.
-//        List reviews = bookMap.get(book);
-//        Calendar cal = Calendar.getInstance();
-//        Date today = cal.getTime();
-//        cal.add(Calendar.YEAR, 1); // to get previous year add -1
-//        Date nextYear = cal.getTime();
-//
-//        Date yearAgo = cal.year
-//        boolean reviewedInLastYear = false;
-//        for (int i = 0; i < reviews.size(); i++) {
+    public boolean recentlyReviewed(Book book) {
+        // get list of reviews for 'book'
+        // iterate through list checking whether the date is greater than 1 year ago
+        // if so, then return true (might have a counter that is set to false, then changes to true.
+        // need to swap out string for review in bookMap
+
+        List reviews = bookMap.get(book);
+        Date today = new Date();
+        Date yearAgo = getOneYearEarlierDate(today);
+//        System.out.print(yearAgo + "here");
+        boolean reviewedInLastYear = false;
+        for (int i = 0; i < reviews.size(); i++) {
+            System.out.print(reviews.get(i) + "\n");
 //            if (reviews.get(i).getDate().after(air)) {
 //                airlineNotFound = false;
 //                airline.get(i).bookSeat(fl, s, row, col);
 //            }
-//        }
-//
-//    }
+        }
+        return true;
+    }
 
     // PC: custom method that will replace search().
     public List<String> search2(String z) {
