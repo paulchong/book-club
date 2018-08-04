@@ -60,8 +60,6 @@ public class BookClub {
         return reviewedInLastYear;
     }
 
-    // BACK: add logic for whether book is recently reviewed or a classic.
-
     // PC: custom method that will replace search().
     public List<String> search2(String z) {
         if (z.equals("")) {
@@ -78,7 +76,9 @@ public class BookClub {
                     .collect(Collectors.toList());
         }
 
-        return bookMap.keySet().stream().map(Book::getName)
+        return bookMap.keySet().stream()
+                .filter(b -> recentlyReviewed(b))
+                .map(Book::getName)
                 .filter(b -> b.toLowerCase().startsWith(z.toLowerCase()))
                 .sorted()
                 .collect(Collectors.toList());

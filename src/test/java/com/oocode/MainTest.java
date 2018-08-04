@@ -119,6 +119,22 @@ public class MainTest {
     }
 
     @Test
+    public void canSearch2ByStringRecentlyReviewedFilter() {
+        BookClub bookClub = new BookClub();
+        Book book1 = new Book("book1Name");
+        Book book2 = new Book("book2Name");
+        Review review1 = new Review("this is a review for Book1", "01/01/2018");
+        Review review2 = new Review("this is another review for Book1", "01/01/2001");
+        Review review3 = new Review("this is a review for Book2", "01/01/2018");
+        bookClub.addBookReview(book1, review1);
+        bookClub.addBookReview(book1, review2);
+        bookClub.addBookReview(book2, review3);
+        assertEquals("if ",
+                asList("book1Name"),
+                bookClub.search2("book"));
+    }
+
+    @Test
     public void canGetReviewPost() {
         Review review1 = new Review("post test here");
         assertEquals("if search string is ALL UPPER case " +
