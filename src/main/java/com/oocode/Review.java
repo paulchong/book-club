@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 public class Review {
     private String reviewPost;
     private Date postDate;
-    private String expectedPattern = "MM/dd/yyyy";
+    private String expectedPattern = "dd/MM/yyyy";
     private SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
 
     //constructor - post only

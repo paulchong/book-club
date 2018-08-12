@@ -16,16 +16,16 @@ public class BookClub {
     // PC: this is the object (HashMap) that holds the book name (string) and list of reviews (list<string>)
 //    private final Map<String, List<String>> listMap = new HashMap<>();
 
-    // PC: custom objects for books.  This will replace listMap
+    // List of books and its reviews
     private final Map<Book, List<Review>> bookMap = new HashMap<>();
 
-    // PC: custom method to add review to bookMap.  This will replace addReview().
+    // Adds review to bookMap
     public void addReview(Book book, Review review) {
         bookMap.putIfAbsent(book, new ArrayList<>());
         bookMap.get(book).add(review);
     }
     // PC: custom method to get reviews for a book in bookMap.  This will replace reviewsFor().
-    public List<Review> reviewsFor(Book book) {
+    public List<Review> getReviewsFor(Book book) {
         return bookMap.getOrDefault(book, Collections.emptyList());
     }
 
