@@ -74,37 +74,21 @@ public class MainTest {
     }
 
 
-//    @Test
-//    public void canSearch2ByStringRecentlyReviewedFilter() {
-//        BookClub bookClub = new BookClub();
-//        Book book1 = new Book("Hello World");
-//        Book book2 = new Book("Hello Wally");
-//        Review review1 = new Review("this is a review for Book1", "01/01/2008");
-//        Review review2 = new Review("this is another review for Book1", "01/01/2001");
-//        Review review3 = new Review("this is a review for Book2", "01/01/2008");
-//        bookClub.addBookReview(book1, review1);
-//        bookClub.addBookReview(book1, review2);
-//        bookClub.addBookReview(book2, review3);
-//        assertEquals("if ",
-//                asList("Hello World"),
-//                bookClub.search2("Hello"));
-//    }
-//
-//    @Test
-//    public void canSearch2ByInitialsRecentlyReviewedFilter() {
-//        BookClub bookClub = new BookClub();
-//        Book book1 = new Book("Hello World");
-//        Book book2 = new Book("Hello Wally");
-//        Review review1 = new Review("this is a review for Book1", "01/01/2018");
-//        Review review2 = new Review("this is another review for Book1", "01/01/2001");
-//        Review review3 = new Review("this is a review for Book2", "01/01/2008");
-//        bookClub.addBookReview(book1, review1);
-//        bookClub.addBookReview(book1, review2);
-//        bookClub.addBookReview(book2, review3);
-//        assertEquals("if ",
-//                asList("Hello World"),
-//                bookClub.search2("HW"));
-//    }
+    @Test
+    public void dateFilterIsAppliedWhenSearchingByStartOfTitle() {
+        Review review3 = new Review("great book, not recently reviewed", "01/01/2008");
+        bookClub.addReview(book1, review1);
+        bookClub.addReview(book2, review3);
+        assertEquals(asList("Hello World"), bookClub.search("Hello"));
+    }
+
+    @Test
+    public void dateFilterIsAppliedWhenSearchingByInitials() {
+        Review review3 = new Review("great book, not recently reviewed", "01/01/2008");
+        bookClub.addReview(book1, review1);
+        bookClub.addReview(book2, review3);
+        assertEquals( asList("Hello World"), bookClub.search("HW"));
+    }
 
     @Test
     public void canGetReviewPost() {
@@ -126,47 +110,54 @@ public class MainTest {
                 bookClub.getOneYearEarlierDate(date));
     }
 
-//    @Test
-//    public void canAddBookReview() {
-//        BookClub bookClub = new BookClub();
-//        Book book1 = new Book("blah");
-//        Review review1 = new Review("this is a review post", "01/01/2000");
-//        Review review2 = new Review("this is another review post", "01/01/2001");
-//        bookClub.addBookReview(book1, review1);
-//        bookClub.addBookReview(book1, review2);
-//        assertEquals("if",
-//                asList(review1, review2),
-//                bookClub.bookReviewsFor(book1));
-//    }
-//
-//    @Test
-//    public void recentlyReviewed() {
-//        BookClub bookClub = new BookClub();
-//        Book book1 = new Book("Hello World");
-//        Review review1 = new Review("this is a review post", "01/01/2018");
-//        Review review2 = new Review("this is another review post", "01/01/2001");
-//        bookClub.addBookReview(book1, review1);
-//        bookClub.addBookReview(book1, review2);
-//        assertEquals("if",
-//                true,
-//                bookClub.wasRecentlyReviewed("Hello World"));
-//    }
-//
-//    @Test
-//    public void canFilterForClassics() {
-//        BookClub bookClub = new BookClub();
-//        Book book1 = new Book("Hello World");
-//        Book book2 = new Book("Hello Wally");
-//        Review review1 = new Review("this is a review for Book1", "01/01/2018");
-//        Review review2 = new Review("this is another review for Book1", "01/01/2001");
-//        Review review3 = new Review("this is a review for Book2", "01/01/2008");
-//        bookClub.addBookReview(book1, review1);
-//        bookClub.addBookReview(book1, review2);
-//        bookClub.addBookReview(book2, review3);
-//        assertEquals(singletonList("Hello World"),
-//                bookClub.search2("HW"));
-//        assertEquals(singletonList("Hello World"),
-//                bookClub.search2("He"));
+    @Test
+    public void canAddReview() {
+        bookClub.addReview(book1, review1);
+        bookClub.addReview(book1, review2);
+        assertEquals(asList(review1, review2),bookClub.getReviewsFor(book1));
+    }
+
+    @Test
+    public void recentlyReviewedBookReturnsTrue() {
+        bookClub.addReview(book1, review1);
+        bookClub.addReview(book1, review2);
+        assertEquals(true, bookClub.wasRecentlyReviewed("Hello World"));
+    }
+
+    @Test
+    public void canCreateBook() {
+        Book aBook = new Book("The Sun Also Rises");
+        assertEquals("Book Name: The Sun Also Rises"+"\n", aBook.toString());
+    }
+
+    @Test
+    public void canGetBookName() {
+        Book aBook = new Book("The Sun Also Rises");
+        assertEquals("The Sun Also Rises", aBook.getName());
+    }
+
+    @Test
+    public void canCreateReview() {
+        Review aReview = new Review("Best book I've read this year","01/01/2018");
+        assertEquals("Date: 01/01/2018"+"\nPost: Best book I've read this year", aReview.toString());
+    }
+
+    @Test
+    public void canCreateReviewPostOnly() {
+        Review aReview = new Review("Best book I've read this year");
+        Date dateToday = new Date();
+        assertEquals("Date: " + formatter.format(dateToday) + "\nPost: Best book I've read this year", aReview.toString());
+    }
+
+    @Test
+    public void canGetReviewDate() throws ParseException {
+        Review aReview = new Review("Best book I've read this year","01/01/2018");
+        assertEquals(formatter.parse("01/01/2018"), aReview.getDate());
+    }
+
+//    @Test (expected = ParseException.class)
+//    public void passingWrongDateFormatThrowException() {
+//        new Review("Best book I've read this year","01-01-2018");
 //    }
 
 }
