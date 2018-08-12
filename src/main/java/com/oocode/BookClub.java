@@ -37,16 +37,6 @@ public class BookClub {
     }
 
     public boolean wasRecentlyReviewed(String bookName) {
-        // get list of reviews for 'book'
-        // iterate through list checking whether the date is greater than 1 year ago
-        // if so, then return true (might have a counter that is set to false, then changes to true.
-        // need to swap out string for review in bookMap
-
-//        BACK: issue is that right now the filter is an AND filter.  Needs to be an OR filter.  Which means that
-//        recentlyReviewed() needs to accept a String bookName, then also  requires an additional step for converting
-//          the bookName into a Book.
-        // 1. assignment to book, and 2. check if not found.
-
         Book book = bookMap.keySet().stream().filter(b -> bookName.equals(b.getName())).findAny().orElse(null);
         List reviews = bookMap.get(book); // list of reviews for the book argument
         Date today = new Date();
@@ -63,18 +53,18 @@ public class BookClub {
     }
 
     // PC: custom method that will replace search().
-    public List<String> search2(String z) {
+    public List<String> search2(String searchQuery) {
 
-        if (z.equals("")) {
+        if (searchQuery.equals("")) {
             throw new IllegalArgumentException();
         }
-        if (z.toUpperCase().equals(z)) {
+        if (searchQuery.toUpperCase().equals(searchQuery)) {
             return bookMap.keySet().stream()
                     .map(Book::getName)
                     .filter(b -> Arrays.stream(b.split(" "))
                             .map(e -> ("" + e.charAt(0)).toLowerCase())
                             .collect(Collectors.joining())
-                            .startsWith(z.toLowerCase()))
+                            .startsWith(searchQuery.toLowerCase()))
                     .filter(b -> isClassic(b)||wasRecentlyReviewed(b)) // checks whether book is a classic or was recently reviewed
                     .sorted() // new code that sorts collection before keys are returned
                     .collect(Collectors.toList());
@@ -82,7 +72,7 @@ public class BookClub {
 
         return bookMap.keySet().stream()
                 .map(Book::getName)
-                .filter(b -> b.toLowerCase().startsWith(z.toLowerCase()))
+                .filter(b -> b.toLowerCase().startsWith(searchQuery.toLowerCase()))
                 .filter(b -> isClassic(b)||wasRecentlyReviewed(b))
                 .sorted()
                 .collect(Collectors.toList());
@@ -141,6 +131,7 @@ public class BookClub {
         // PC: in sum, this returns a list of book names that start with the same letter as the term in the search query
         return listMap.keySet().stream()
                 .filter(b -> b.toLowerCase().startsWith(z.toLowerCase()))
+                .filter(b -> isClassic(b)||wasRecentlyReviewed(b))
                 .sorted()
                 .collect(Collectors.toList());
     }

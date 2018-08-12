@@ -211,7 +211,7 @@ public class MainTest {
         Book book2 = new Book("Hello Wally");
         Review review1 = new Review("this is a review for Book1", "01/01/2018");
         Review review2 = new Review("this is another review for Book1", "01/01/2001");
-        Review review3 = new Review("this is a review for Book2", "01/01/2018");
+        Review review3 = new Review("this is a review for Book2", "01/01/2008");
         bookClub.addBookReview(book1, review1);
         bookClub.addBookReview(book1, review2);
         bookClub.addBookReview(book2, review3);
