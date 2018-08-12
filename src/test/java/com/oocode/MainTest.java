@@ -11,11 +11,14 @@ import static org.junit.Assert.assertEquals;
 
 public class MainTest {
     @Test
-    public void t1() {
+    public void canSearchByStartOfTitle() {
         BookClub bookClub = new BookClub();
-        bookClub.addReview("Hello World", "great");
-        bookClub.addReview("Hello Wally", "boring");
-
+        Book book1 = new Book("Hello World");
+        Book book2 = new Book("Hello Wally");
+        Review review1 = new Review("great", "01/01/2018");
+        Review review2 = new Review("boring", "01/01/2018");
+        bookClub.addReview(book1, review1);
+        bookClub.addReview(book2, review2);
         assertEquals("if search string is NOT ALL UPPER case " +
                         "then it means search matching start of title",
                 asList("Hello Wally", "Hello World"),
@@ -24,40 +27,32 @@ public class MainTest {
                 bookClub.search("hel"));
     }
 
-
-    // PC: added new test to illustrate failure that existing test was missing
     @Test
-    public void canSearchByInitials2() {
+    public void canSearchByInitials() {
         BookClub bookClub = new BookClub();
-
-        bookClub.addReview("Adios Wally", "great");
-        bookClub.addReview("Aurevoir Wally", "boring");
-
+        Book book1 = new Book("Adios Wally");
+        Book book2 = new Book("Aurevoir Wally");
+        Review review1 = new Review("great", "01/01/2018");
+        Review review2 = new Review("boring", "01/01/2018");
+        bookClub.addReview(book1, review1);
+        bookClub.addReview(book2, review2);
         assertEquals("if search string is ALL UPPER case " +
                         "then it means search by initials",
                 asList("Adios Wally", "Aurevoir Wally"),
                 bookClub.search("AW"));
     }
 
-    @Test
-    public void canSearchByInitials() {
-        BookClub bookClub = new BookClub();
-        bookClub.addReview("Hello World", "great");
-        bookClub.addReview("Hello Wally", "boring");
-
-        assertEquals("if search string is ALL UPPER case " +
-                        "then it means search by initials",
-                asList("Hello Wally", "Hello World"),
-                bookClub.search("HW"));
-    }
 
     // PC: test for when book name starts with lower case
     @Test
-    public void t3() {
+    public void searchReturnsBooksWhenTitleIsLowercase() {
         BookClub bookClub = new BookClub();
-        bookClub.addReview("hello world", "great");
-        bookClub.addReview("hello wally", "boring");
-
+        Book book1 = new Book("hello world");
+        Book book2 = new Book("hello wally");
+        Review review1 = new Review("great", "01/01/2018");
+        Review review2 = new Review("boring", "01/01/2018");
+        bookClub.addReview(book1, review1);
+        bookClub.addReview(book2, review2);
         assertEquals(asList("hello wally", "hello world"),
                 bookClub.search("Hel"));
         assertEquals(asList("hello wally", "hello world"),
@@ -66,32 +61,34 @@ public class MainTest {
                 bookClub.search("HW"));
     }
 
-    // PC: test for when multiple reviews added to one book
     @Test
-    public void t4() {
+    public void canAddMultipleReviewsToSingleBook() {
         BookClub bookClub = new BookClub();
-        bookClub.addReview("Hello World", "great");
-        bookClub.addReview("Hello World", "the best book ever");
-
-        assertEquals(asList("great", "the best book ever"),
-                bookClub.reviewsFor("Hello World"));
+        Book book1 = new Book("Hello World");
+        Review review1 = new Review("great", "01/01/2018");
+        Review review2 = new Review("the best book ever", "01/01/2018");
+        bookClub.addReview(book1, review1);
+        bookClub.addReview(book1, review2);
+        assertEquals(asList(review1, review2),
+                bookClub.reviewsFor(book1));
     }
 
     //  PC: tests for whether a book is classic. in this case, only Hello World is classic.
     //  PC: there should be a better way to do this. what are we actually testing? that the call to the external
     // service is working, or that the service is actually returning what we think it will.
     @Test
-    public void t5() {
+    public void getClassicsMethodReturnsClassics() {
         BookClub bookClub = new BookClub();
-        bookClub.addReview("Hello World", "great");
-        bookClub.addReview("Hello Wally", "boring");
-        // PC: Should pass but it depends what the external service
-        // determines is a "classic", which might change
-        //  PC: singletonList is a list with a single object and is immutable. Q: why is it used here?
+        Book book1 = new Book("Hello World");
+        Book book2 = new Book("Hello Wally");
+        Review review1 = new Review("great", "01/01/2018");
+        Review review2 = new Review("boring", "01/01/2018");
+        bookClub.addReview(book1, review1);
+        bookClub.addReview(book2, review2);
         assertEquals(singletonList("Hello World"),
-                bookClub.classics("HW"));
+                bookClub.getClassics("HW"));
         assertEquals(singletonList("Hello World"),
-                bookClub.classics("He"));
+                bookClub.getClassics("He"));
     }
 
     // PC: custom test for book object
@@ -103,52 +100,39 @@ public class MainTest {
 //        System.out.print(bookClub.printBookList());
 //        assertEquals(1, bookClub.getNumBooks());
 //    }
+    
 
-
-    @Test
-    public void canSearch2ByInitials() {
-        BookClub bookClub = new BookClub();
-        Book book1 = new Book("Hello World");
-        Book book2 = new Book("Hello Wally");
-//        bookClub.addBookReview(book1,"Great");
-//        bookClub.addBookReview(book2,"boring");
-        assertEquals("if search string is ALL UPPER case " +
-                        "then it means search by initials",
-                asList("Hello Wally", "Hello World"),
-                bookClub.search2("HW"));
-    }
-
-    @Test
-    public void canSearch2ByStringRecentlyReviewedFilter() {
-        BookClub bookClub = new BookClub();
-        Book book1 = new Book("Hello World");
-        Book book2 = new Book("Hello Wally");
-        Review review1 = new Review("this is a review for Book1", "01/01/2008");
-        Review review2 = new Review("this is another review for Book1", "01/01/2001");
-        Review review3 = new Review("this is a review for Book2", "01/01/2008");
-        bookClub.addBookReview(book1, review1);
-        bookClub.addBookReview(book1, review2);
-        bookClub.addBookReview(book2, review3);
-        assertEquals("if ",
-                asList("Hello World"),
-                bookClub.search2("Hello"));
-    }
-
-    @Test
-    public void canSearch2ByInitialsRecentlyReviewedFilter() {
-        BookClub bookClub = new BookClub();
-        Book book1 = new Book("Hello World");
-        Book book2 = new Book("Hello Wally");
-        Review review1 = new Review("this is a review for Book1", "01/01/2018");
-        Review review2 = new Review("this is another review for Book1", "01/01/2001");
-        Review review3 = new Review("this is a review for Book2", "01/01/2008");
-        bookClub.addBookReview(book1, review1);
-        bookClub.addBookReview(book1, review2);
-        bookClub.addBookReview(book2, review3);
-        assertEquals("if ",
-                asList("Hello World"),
-                bookClub.search2("HW"));
-    }
+//    @Test
+//    public void canSearch2ByStringRecentlyReviewedFilter() {
+//        BookClub bookClub = new BookClub();
+//        Book book1 = new Book("Hello World");
+//        Book book2 = new Book("Hello Wally");
+//        Review review1 = new Review("this is a review for Book1", "01/01/2008");
+//        Review review2 = new Review("this is another review for Book1", "01/01/2001");
+//        Review review3 = new Review("this is a review for Book2", "01/01/2008");
+//        bookClub.addBookReview(book1, review1);
+//        bookClub.addBookReview(book1, review2);
+//        bookClub.addBookReview(book2, review3);
+//        assertEquals("if ",
+//                asList("Hello World"),
+//                bookClub.search2("Hello"));
+//    }
+//
+//    @Test
+//    public void canSearch2ByInitialsRecentlyReviewedFilter() {
+//        BookClub bookClub = new BookClub();
+//        Book book1 = new Book("Hello World");
+//        Book book2 = new Book("Hello Wally");
+//        Review review1 = new Review("this is a review for Book1", "01/01/2018");
+//        Review review2 = new Review("this is another review for Book1", "01/01/2001");
+//        Review review3 = new Review("this is a review for Book2", "01/01/2008");
+//        bookClub.addBookReview(book1, review1);
+//        bookClub.addBookReview(book1, review2);
+//        bookClub.addBookReview(book2, review3);
+//        assertEquals("if ",
+//                asList("Hello World"),
+//                bookClub.search2("HW"));
+//    }
 
     @Test
     public void canGetReviewPost() {
@@ -178,47 +162,47 @@ public class MainTest {
                 bookClub.getOneYearEarlierDate(new Date()));
     }
 
-    @Test
-    public void canAddBookReview() {
-        BookClub bookClub = new BookClub();
-        Book book1 = new Book("blah");
-        Review review1 = new Review("this is a review post", "01/01/2000");
-        Review review2 = new Review("this is another review post", "01/01/2001");
-        bookClub.addBookReview(book1, review1);
-        bookClub.addBookReview(book1, review2);
-        assertEquals("if",
-                asList(review1, review2),
-                bookClub.bookReviewsFor(book1));
-    }
-
-    @Test
-    public void recentlyReviewed() {
-        BookClub bookClub = new BookClub();
-        Book book1 = new Book("Hello World");
-        Review review1 = new Review("this is a review post", "01/01/2018");
-        Review review2 = new Review("this is another review post", "01/01/2001");
-        bookClub.addBookReview(book1, review1);
-        bookClub.addBookReview(book1, review2);
-        assertEquals("if",
-                true,
-                bookClub.wasRecentlyReviewed("Hello World"));
-    }
-
-    @Test
-    public void canFilterForClassics() {
-        BookClub bookClub = new BookClub();
-        Book book1 = new Book("Hello World");
-        Book book2 = new Book("Hello Wally");
-        Review review1 = new Review("this is a review for Book1", "01/01/2018");
-        Review review2 = new Review("this is another review for Book1", "01/01/2001");
-        Review review3 = new Review("this is a review for Book2", "01/01/2008");
-        bookClub.addBookReview(book1, review1);
-        bookClub.addBookReview(book1, review2);
-        bookClub.addBookReview(book2, review3);
-        assertEquals(singletonList("Hello World"),
-                bookClub.search2("HW"));
-        assertEquals(singletonList("Hello World"),
-                bookClub.search2("He"));
-    }
+//    @Test
+//    public void canAddBookReview() {
+//        BookClub bookClub = new BookClub();
+//        Book book1 = new Book("blah");
+//        Review review1 = new Review("this is a review post", "01/01/2000");
+//        Review review2 = new Review("this is another review post", "01/01/2001");
+//        bookClub.addBookReview(book1, review1);
+//        bookClub.addBookReview(book1, review2);
+//        assertEquals("if",
+//                asList(review1, review2),
+//                bookClub.bookReviewsFor(book1));
+//    }
+//
+//    @Test
+//    public void recentlyReviewed() {
+//        BookClub bookClub = new BookClub();
+//        Book book1 = new Book("Hello World");
+//        Review review1 = new Review("this is a review post", "01/01/2018");
+//        Review review2 = new Review("this is another review post", "01/01/2001");
+//        bookClub.addBookReview(book1, review1);
+//        bookClub.addBookReview(book1, review2);
+//        assertEquals("if",
+//                true,
+//                bookClub.wasRecentlyReviewed("Hello World"));
+//    }
+//
+//    @Test
+//    public void canFilterForClassics() {
+//        BookClub bookClub = new BookClub();
+//        Book book1 = new Book("Hello World");
+//        Book book2 = new Book("Hello Wally");
+//        Review review1 = new Review("this is a review for Book1", "01/01/2018");
+//        Review review2 = new Review("this is another review for Book1", "01/01/2001");
+//        Review review3 = new Review("this is a review for Book2", "01/01/2008");
+//        bookClub.addBookReview(book1, review1);
+//        bookClub.addBookReview(book1, review2);
+//        bookClub.addBookReview(book2, review3);
+//        assertEquals(singletonList("Hello World"),
+//                bookClub.search2("HW"));
+//        assertEquals(singletonList("Hello World"),
+//                bookClub.search2("He"));
+//    }
 
 }
