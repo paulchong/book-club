@@ -24,9 +24,9 @@ public class MainTest {
         assertEquals("if search string is NOT ALL UPPER case " +
                         "then it means search matching start of title",
                 asList("Hello Wally", "Hello World"),
-                bookClub.search("Hel"));
+                bookClub.searchSelector("Hel"));
         assertEquals(asList("Hello Wally", "Hello World"),
-                bookClub.search("hel"));
+                bookClub.searchSelector("hel"));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class MainTest {
         assertEquals("if search string is ALL UPPER case " +
                         "then it means search by initials",
                 asList("Adios Wally", "Aurevoir Wally"),
-                bookClub.search("AW"));
+                bookClub.searchSelector("AW"));
     }
 
     @Test
@@ -48,11 +48,11 @@ public class MainTest {
         bookClub.addReview(book5, review1);
         bookClub.addReview(book6, review2);
         assertEquals(asList("hello wally", "hello world"),
-                bookClub.search("Hel"));
+                bookClub.searchSelector("Hel"));
         assertEquals(asList("hello wally", "hello world"),
-                bookClub.search("hel"));
+                bookClub.searchSelector("hel"));
         assertEquals(asList("hello wally", "hello world"),
-                bookClub.search("HW"));
+                bookClub.searchSelector("HW"));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class MainTest {
         Review review3 = new Review("great book, not recently reviewed", "01/01/2008");
         bookClub.addReview(book1, review1);
         bookClub.addReview(book2, review3);
-        assertEquals(asList("Hello World"), bookClub.search("Hello"));
+        assertEquals(asList("Hello World"), bookClub.searchSelector("Hello"));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class MainTest {
         Review review3 = new Review("great book, not recently reviewed", "01/01/2008");
         bookClub.addReview(book1, review1);
         bookClub.addReview(book2, review3);
-        assertEquals( asList("Hello World"), bookClub.search("HW"));
+        assertEquals( asList("Hello World"), bookClub.searchSelector("HW"));
     }
 
     @Test

@@ -52,24 +52,32 @@ public class BookClub {
     }
 
     // main search method
-    public List<String> search(String searchQuery) {
+    public List<String> searchSelector(String searchQuery) {
 
         if (searchQuery.equals("")) {
             throw new IllegalArgumentException();
         }
         // search by initials
         if (searchQuery.toUpperCase().equals(searchQuery)) {
-            return bookMap.keySet().stream()
-                    .map(Book::getName)
-                    .filter(b -> Arrays.stream(b.split(" "))
-                            .map(e -> ("" + e.charAt(0)).toLowerCase())
-                            .collect(Collectors.joining())
-                            .startsWith(searchQuery.toLowerCase()))
-                    .filter(b -> isClassic(b)||wasRecentlyReviewed(b)) // checks whether book is a classic or was recently reviewed
-                    .sorted() // new code that sorts collection before keys are returned
-                    .collect(Collectors.toList());
+            return this.searchByInitials(searchQuery);
         }
         // search by start of title
+        return this.searchByTitleString(searchQuery);
+    }
+
+    public List<String> searchByInitials(String searchQuery) {
+        return bookMap.keySet().stream()
+                .map(Book::getName)
+                .filter(b -> Arrays.stream(b.split(" "))
+                        .map(e -> ("" + e.charAt(0)).toLowerCase())
+                        .collect(Collectors.joining())
+                        .startsWith(searchQuery.toLowerCase()))
+                .filter(b -> isClassic(b)||wasRecentlyReviewed(b)) // checks whether book is a classic or was recently reviewed
+                .sorted() // new code that sorts collection before keys are returned
+                .collect(Collectors.toList());
+    }
+
+    public List<String> searchByTitleString(String searchQuery) {
         return bookMap.keySet().stream()
                 .map(Book::getName)
                 .filter(b -> b.toLowerCase().startsWith(searchQuery.toLowerCase()))
@@ -80,7 +88,7 @@ public class BookClub {
 
     // returns a list of book which are classics.
     public List<String> getClassics(String searchQuery) {
-        return search(searchQuery).stream().filter(BookClub::isClassic).sorted()
+        return searchSelector(searchQuery).stream().filter(BookClub::isClassic).sorted()
                 .collect(Collectors.toList());
     }
 
