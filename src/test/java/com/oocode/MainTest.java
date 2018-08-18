@@ -155,9 +155,9 @@ public class MainTest {
         assertEquals(formatter.parse("01/01/2018"), aReview.getDate());
     }
 
-//    @Test (expected = ParseException.class)
-//    public void passingWrongDateFormatThrowException() {
-//        new Review("Best book I've read this year","01-01-2018");
-//    }
+    @Test (expected = IllegalArgumentException.class)
+    public void passingEmptyQueryThrowsException() {
+        bookClub.searchSelector("");
+    }
 
 }
